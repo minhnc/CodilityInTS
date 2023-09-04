@@ -1,7 +1,7 @@
 // https://app.codility.com/programmers/lessons/3-time_complexity/perm_missing_elem/
 
 // Missing number = sumOf([1, ..., N+1]) - sumOf(input)
-// CPU: O(n) | RAM: O(1)
+// Time complexity: CPU: O(n) | RAM: O(1)
 function solution(A: number[]): number {
     // Sum of input A
     const inputSum = A.reduce((prev, curr) => prev + curr, 0)
