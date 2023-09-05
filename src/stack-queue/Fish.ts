@@ -1,4 +1,4 @@
-// https://app.codility.com/demo/results/trainingABF6PR-37Y/
+// https://app.codility.com/demo/results/trainingYJGPFH-URB/
 
 /**
  * Time complexity: O(n)
@@ -9,8 +9,8 @@
  *      - 1: downstream
  */
 function Fish(A: number[], B: number[]): number {
-    const upstream: number[] = []
-    const downstream: number[] = []
+    let survivors = 0;
+    const stack: number[] = []
 
     for (let i = 0; i < A.length; i++) {
         const current = A[i]
@@ -18,26 +18,28 @@ function Fish(A: number[], B: number[]): number {
 
         if (direction === 1) {
             // downstream
-            downstream.push(current)
+            stack.push(current)
         } else {
-            // upstream - loop through downstream[] and compare with current fish
+            // upstream - loop through stack and compare with current fish
 
-            if (downstream.length === 0) {
-                // no fish in downstream
-                upstream.push(current)
-            } else {
-                while (downstream.length > 0) {
-                    const f = downstream.pop() || -1
+            while (stack.length > 0) {
+                const f = stack.pop() || -1
 
-                    if (f > current) {
-                        // all smaller fishes will be eaten. Only bigger fish will be pushed back to downstream
-                        downstream.push(f)
-                        break
-                    }
+                if (f > current) {
+                    // all smaller fishes will be eaten. Only bigger fish will be pushed back to stack
+                    stack.push(f)
+                    break
                 }
+            }
+
+            if (stack.length === 0) {
+                // all fishes in stack are eaten by current fish :)
+                survivors++
             }
         }
     }
 
-    return upstream.length + downstream.length
+    return survivors + stack.length
 }
+
+console.log(Fish([4, 3, 2, 1, 5], [0, 1, 0, 0, 0]))
