@@ -34,5 +34,39 @@ function Dominator(A: number[]): number {
     return count > (A.length / 2) ? lastOccur : -1
 }
 
+// https://app.codility.com/demo/results/trainingQAV7ZZ-A5U/
+// Time complexity: O(n)
+function Dominator2(A: number[]): number {
+    let leader = 0
+    let counter = 0
+
+    for (const a of A) {
+        if (counter === 0) {
+            leader = a
+            counter++
+        } else if (a === leader) {
+            counter++
+        } else {
+            counter--
+        }
+    }
+
+    if (counter === 0) {
+        return -1
+    }
+
+    let occurCount = 0
+    let occurIndex = -1
+
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] === leader) {
+            occurCount++
+            occurIndex = i
+        }
+    }
+
+    return occurCount > (A.length / 2) ? occurIndex : -1
+}
+
 console.log(Dominator([3, 4, 3, 2, 3, -1, 3, 3]))
 console.log(Dominator([0, 0, 1, 1, 1]))
