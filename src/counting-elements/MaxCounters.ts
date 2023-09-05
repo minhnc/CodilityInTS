@@ -26,35 +26,32 @@ function MaxCounters(N: number, A: number[]): number[] {
 
 // Time complexity O(n + m)
 function MaxCountersV2(N: number, A: number[]): number[] {
-    let counters = new Array(N).fill(0)
-    let maxCounter = 0
-    let maxCounterInstruction = 0
+    const counters = new Array(N).fill(0)
+    let maxCounterValue = 0
+    let currentMaxCounter = 0
 
-    A.forEach(v => {
-        if (v > N) {
-            // maxCounter instruction
-            maxCounterInstruction = maxCounter
+    A.forEach(instruction => {
+        if (instruction > N) {
+            // max counter - update currentMaxCounter to maxCounterValue
+            currentMaxCounter = maxCounterValue
+
         } else {
-            // increase instruction
-            const index = v - 1
+            const index = instruction - 1
 
-            if (counters[index] < maxCounterInstruction) {
-                // there was a maxCounter Instruction
-                counters[index] = maxCounterInstruction + 1
+            if (counters[index] < currentMaxCounter) {
+                // there was a maxCounter instruction before
+                counters[index] = currentMaxCounter + 1
             } else {
                 counters[index]++
             }
 
-            maxCounter = Math.max(
-                counters[index],
-                maxCounter
-            )
+            maxCounterValue = Math.max(counters[index], maxCounterValue)
         }
     })
 
-    // The final loop to apply maxCounterInstruction to other counters
+    // update all the counters to currentMaxCounter
     return counters.map(
-        counter => counter < maxCounterInstruction ? maxCounterInstruction : counter
+        counter => counter < currentMaxCounter ? currentMaxCounter : counter
     )
 }
 
